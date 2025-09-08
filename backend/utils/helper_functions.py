@@ -3,13 +3,12 @@ import csv
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-import datetime
 import json
 
 
 def validate_property_data(data:dict):
-    if data.get("PropertyType") not in ("residential", "commercial"):
-        raise ValueError("PropertyType must be 'residential' or 'commercial'")
+    if data.get("PropertyType") not in ("Residential", "Commercial"):
+        raise ValueError("PropertyType must be 'Residential' or 'Commercial'")
     if data.get("Status") not in ("Occupied", "Vacant"):
         raise ValueError("Status must be 'Occupied' or 'Vacant'")
     return True
@@ -140,12 +139,11 @@ def import_maintenances_from_csv_with_id(file_path: str,engine):
 
 
 def import_csv_file(csv_file,engine) -> None:
+
     import_properties_from_csv_with_id(csv_file[0], engine)
     import_tenants_from_csv_with_id(csv_file[1], engine)
     import_maintenances_from_csv_with_id(csv_file[2],engine)
 
-import datetime
-import json
 
 def serialize_sqlalchemy_objects(objects):
     """
@@ -157,6 +155,7 @@ def serialize_sqlalchemy_objects(objects):
     Returns:
         list: Liste de dictionnaires nettoyés, dates converties en string.
     """
+    import datetime
     serialized = []
 
     for obj in objects:
@@ -176,6 +175,7 @@ def serialize_sqlalchemy_objects(objects):
     return serialized
 
 def serialize_object(obj):
+    import datetime
     """
     Transforme un objet SQLAlchemy en dictionnaire prêt pour JSON.
     

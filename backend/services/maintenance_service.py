@@ -17,12 +17,12 @@ def get_maintenance_by_id(db: Session, maintenance_id: int):
 def create_maintenance(db: Session,  maintenance_id: int, maintenance_data: dict):
     if not validate_maintenance_data(maintenance_data):
         raise ValueError("Invalid maintenance data")
-    return repo_update_maintenance(db, maintenance_data)
+    return repo_create_maintenance(db, maintenance_data)
 
 def update_maintenance(db: Session, maintenance_id: int, updates: dict):
     if not validate_maintenance_data(updates):
         raise ValueError("Invalid updates data")
-    return repo_create_maintenance(db, updates)
+    return repo_update_maintenance(db, updates)
 
 def delete_maintenance(db:Session, maintenance_id:int):
     return repo_delete_maintenance(db,maintenanceId)

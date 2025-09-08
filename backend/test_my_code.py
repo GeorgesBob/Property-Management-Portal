@@ -8,61 +8,9 @@ from models.base import SessionLocal
 
 db = SessionLocal()
 
-# récupérer toutes les propriétés
-#properties = get_all_property(db)
-#print("Toutes les propriétés:")
-#for p in properties:
- #   print(p.PropertyID, p.Address)
-
-properties = service_get_all_property(db)
-print('all properties :')
-all_data = serialize_sqlalchemy_objects(properties)
-print(all_data)
-
-prop = service_get_property_by_id(db,2)
-
-print(prop)
-
-# récupérer toutes les locataires
-tenants = get_all_tenants(db)
-print("Tous les locataires:")
-for t in tenants:
-    print(t.TenantID, t.Name)
-
-
-t = get_tenant_by_id(db,2)
-
-if t:
-    print("ID:", t.TenantID)
-    print("Name:", t.Name)
-    print("Contact Info :", t.ContactInfo)
-    print("LeaseTermStart:", t.LeaseTermStart)
-    print("Date achat:", t.LeaseTermEnd)
-
-else:
-    print("Aucun locataire trouvée")
-
-
-# récupérer toutes les maintenances
-maintenances = get_all_maintenances(db)
-print("Toutes les maintenance:")
-for m in maintenances:
-    print(m.TaskID, m.Description)
-
-
-m = get_maintenance_by_id(db,2)
-
-if m:
-    print("ID:", m.TaskID)
-    print("Description :", m.Description)
-    print("Status :", m.Status)
-    print("Scheduled Date:", m.ScheduledDate)
-else:
-    print("Aucun maintenance trouvée")
-
 data = {
     "Address": "3 Quai de Grenelle, Marseille, 13002",
-    "PropertyType": "residential",
+    "PropertyType": "Residential",
     "Status": "Occupied",
     "PurchaseDate":"2020-06-15",
     "Price":"2000"

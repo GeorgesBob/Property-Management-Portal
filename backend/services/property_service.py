@@ -1,12 +1,11 @@
 # service/property_service.py
 from sqlalchemy.orm import Session
-from utils.helper_functions import validate_property_data
 from repository.property_repository import (create_property as repo_create_property, 
 get_property_by_id as repo_get_property_by_id, 
 get_all_properties as repo_get_all_properties, 
 update_property as repo_update_property, 
 delete_property as repo_delete_property)
-from utils.helper_functions import serialize_sqlalchemy_objects, serialize_object
+from utils.helper_functions import serialize_sqlalchemy_objects, serialize_object, validate_property_data
 
 def get_all_properties(db:Session):
     return serialize_sqlalchemy_objects(repo_get_all_properties(db))
