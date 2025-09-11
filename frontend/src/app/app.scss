@@ -1,0 +1,25 @@
+$navy-dark: #0d1b2a;
+$navy-medium: #1b263b;
+$navy-light: #415a77;
+$white: #ffffff;
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: $navy-dark;
+  color: $white;
+
+  .nav-link {
+    border-radius: 8px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: $navy-medium;
+    }
+
+    &.active {
+      background-color: $navy-light;
+      font-weight: bold;
+    }
+  }
+}
