@@ -15,7 +15,7 @@ def create_property(db: Session, propertyData: dict):
 
 def get_all_properties(db: Session):
     try:
-        return db.query(Property).all()
+        return db.query(Property).order_by(Property.PurchaseDate.desc()).all()
     except SQLAlchemyError as e:
         db.rollback()
         raise e
@@ -46,7 +46,7 @@ def update_property(db: Session, property_id: int, updates: dict):
 
 def delete_property(db: Session, property_id: int):
     try:
-        property_obj = db.get(Property, property_id)
+        property_obj = db.query(Property).filter(Property.PropertyID == property_id).first()
         if property_obj:
             db.delete(property_obj)
             db.commit()

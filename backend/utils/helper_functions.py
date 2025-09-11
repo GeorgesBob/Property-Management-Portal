@@ -24,8 +24,9 @@ def validate_tenant_data(data: dict):
     return True
 
 def validate_maintenance_data(data: dict):
-    if data.get("Status") not in ("pending", "in progress","completed"):
-        raise ValueError("Status must be 'pending' or 'in progress' or 'completed'")
+    if data.get("Status") not in ("Pending", "In Progress","Completed"):
+        raise ValueError("Status must be 'Pending' or 'in Progress' or 'Completed'")
+    return True
 
 def import_properties_from_csv_with_id(file_path: str, engine):
     from models.property import Property
@@ -185,14 +186,15 @@ def serialize_object(obj):
     Returns:
         dict: Dictionnaire nettoyé, dates converties en string.
     """
-    obj_dict = obj.__dict__.copy()  # copier pour ne pas modifier l'objet original
-    # Supprimer l'état interne SQLAlchemy
-    obj_dict.pop('_sa_instance_state', None)
-    
-    # Convertir les dates en string ISO
-    for k, v in obj_dict.items():
-        if isinstance(v, datetime.date):
-            obj_dict[k] = v.isoformat()
-    
-    return obj_dict
+    if obj != None:
+        obj_dict = obj.__dict__.copy()  # copier pour ne pas modifier l'objet original
+        # Supprimer l'état interne SQLAlchemy
+        obj_dict.pop('_sa_instance_state', None)
+        
+        # Convertir les dates en string ISO
+        for k, v in obj_dict.items():
+            if isinstance(v, datetime.date):
+                obj_dict[k] = v.isoformat()
+        
+        return obj_dict
 

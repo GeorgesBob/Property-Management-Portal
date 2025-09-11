@@ -24,10 +24,16 @@ def create_maintenance():
     try:
         data = request.get_json()
         maintenance = service_create_maintenance(db, data)
+
         if not maintenance:
-            return jsonify(maintenance), 200
+            return jsonify({"error": "Maintenance not created"}), 400
+
+        # ✅ si tout va bien
+        return jsonify({"status": "OK"}), 201,
+
     except ValidationError as e:
-        return jsonify({"error": e.errors()}), 400    
+        return jsonify({"error": e.errors()}), 400
+   
 
 @maintenance_bp.route('/<int:maintenance_id>', methods=["PATCH"])
 def update_maintenance(maintenance_id):

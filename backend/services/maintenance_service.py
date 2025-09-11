@@ -14,7 +14,7 @@ def get_all_maintenances(db:Session):
 def get_maintenance_by_id(db: Session, maintenance_id: int):
     return serialize_object(repo_get_maintenance_by_id(db, maintenance_id))
 
-def create_maintenance(db: Session,  maintenance_id: int, maintenance_data: dict):
+def create_maintenance(db: Session, maintenance_data: dict):
     if not validate_maintenance_data(maintenance_data):
         raise ValueError("Invalid maintenance data")
     return repo_create_maintenance(db, maintenance_data)

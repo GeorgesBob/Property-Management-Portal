@@ -15,7 +15,7 @@ def create_tenant(db: Session, tenantData: dict):
 
 def get_all_tenants(db: Session):
     try:
-        return db.query(Tenant).all()
+        return db.query(Tenant).order_by(Tenant.TenantID.asc()).all()
     except SQLAlchemyError as e:
         db.rollback()
         raise e
@@ -46,7 +46,7 @@ def update_tenant(db: Session, tenant_id: int, updates: dict):
 
 def delete_tenant(db: Session, tenant_id: int):
     try:
-        tenant_obj = db.get(tenant, tenant_id)
+        tenant_obj = db.query(Tenant).filter(Tenant.TenantID == tenant_id).first()
         if tenant_obj:
             db.delete(tenant_obj)
             db.commit()
