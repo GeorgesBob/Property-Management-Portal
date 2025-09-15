@@ -55,7 +55,7 @@ def delete_property(property_id):
         prop = service_delete_property(db, property_id)
         if not prop:
             return jsonify({"error": "property not found"}), 404
-        return jsonify({"status": "Deleete"}), 200,
+        return jsonify({"status": "Delete"}), 200,
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400       
 

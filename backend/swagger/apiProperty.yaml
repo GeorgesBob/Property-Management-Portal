@@ -1,0 +1,396 @@
+openapi: 3.0.4
+info:
+  title: Real Estate Management API
+  description: API de gestion des propriétés, tâches de maintenance et locataires
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000
+tags:
+  - name: property
+    description: Opérations sur les propriétés
+  - name: maintenance
+    description: Opérations sur les tâches de maintenance
+  - name: tenant
+    description: Opérations sur les locataires
+paths:
+  ## Property Endpoints
+  /property:
+    get:
+      tags:
+        - property
+      summary: Récupérer toutes les propriétés
+      operationId: getAllProperties
+      responses:
+        '200':
+          description: Liste des propriétés
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+    post:
+      tags:
+        - property
+      summary: Créer une nouvelle propriété
+      operationId: createProperty
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '201':
+          description: Propriété créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+  /property/{id}:
+    get:
+      tags:
+        - property
+      summary: Récupérer une propriété par ID
+      operationId: getPropertyById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Propriété trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '404':
+          description: Propriété non trouvée
+    patch:
+      tags:
+        - property
+      summary: Mettre à jour une propriété
+      operationId: updateProperty
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '200':
+          description: Propriété mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '404':
+          description: Propriété non trouvée
+    delete:
+      tags:
+        - property
+      summary: Supprimer une propriété
+      operationId: deleteProperty
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Propriété supprimée
+        '404':
+          description: Propriété non trouvée
+
+  ## Maintenance Endpoints
+  /maintenance:
+    get:
+      tags:
+        - maintenance
+      summary: Récupérer toutes les tâches de maintenance
+      operationId: getAllMaintenanceTasks
+      responses:
+        '200':
+          description: Liste des tâches de maintenance
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Maintenance'
+    post:
+      tags:
+        - maintenance
+      summary: Créer une nouvelle tâche de maintenance
+      operationId: createMaintenanceTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Maintenance'
+      responses:
+        '201':
+          description: Tâche de maintenance créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+  /maintenance/{id}:
+    get:
+      tags:
+        - maintenance
+      summary: Récupérer une tâche de maintenance par ID
+      operationId: getMaintenanceTaskById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tâche trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+        '404':
+          description: Tâche non trouvée
+    patch:
+      tags:
+        - maintenance
+      summary: Mettre à jour une tâche de maintenance
+      operationId: updateMaintenanceTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Maintenance'
+      responses:
+        '200':
+          description: Tâche mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+        '404':
+          description: Tâche non trouvée
+    delete:
+      tags:
+        - maintenance
+      summary: Supprimer une tâche de maintenance
+      operationId: deleteMaintenanceTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tâche supprimée
+        '404':
+          description: Tâche non trouvée
+
+  ## Tenant Endpoints
+  /tenant:
+    get:
+      tags:
+        - tenant
+      summary: Récupérer tous les locataires
+      operationId: getAllTenants
+      responses:
+        '200':
+          description: Liste des locataires
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+    post:
+      tags:
+        - tenant
+      summary: Créer un nouveau locataire
+      operationId: createTenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '201':
+          description: Locataire créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+  /tenant/{id}:
+    get:
+      tags:
+        - tenant
+      summary: Récupérer un locataire par ID
+      operationId: getTenantById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Locataire trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '404':
+          description: Locataire non trouvé
+    patch:
+      tags:
+        - tenant
+      summary: Mettre à jour un locataire
+      operationId: updateTenant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '200':
+          description: Locataire mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '404':
+          description: Locataire non trouvé
+    delete:
+      tags:
+        - tenant
+      summary: Supprimer un locataire
+      operationId: deleteTenant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Locataire supprimé
+        '404':
+          description: Locataire non trouvé
+
+components:
+  schemas:
+    Property:
+      type: object
+      properties:
+        PropertyID:
+          type: integer
+          example: 4
+        Address:
+          type: string
+          example: "12 Rue des Lilas, Paris, 75015"
+        Price:
+          type: number
+          example: 350000
+        PropertyType:
+          type: string
+          example: "Commercial"
+        PurchaseDate:
+          type: string
+          format: date
+          example: "2021-06-15"
+        Status:
+          type: string
+          example: "Vacant"
+      required:
+        - Address
+        - Price
+        - PropertyType
+        - PurchaseDate
+        - Status
+    Maintenance:
+      type: object
+      properties:
+        TaskID:
+          type: integer
+          example: 10
+        PropertyID:
+          type: integer
+          example: 1
+        Description:
+          type: string
+          example: "Update security system"
+        ScheduledDate:
+          type: string
+          format: date
+          example: "2025-09-20"
+        Status:
+          type: string
+          example: "In Progress"
+      required:
+        - PropertyID
+        - Description
+        - ScheduledDate
+        - Status
+    Tenant:
+      type: object
+      properties:
+        TenantID:
+          type: integer
+          example: 1
+        PropertyID:
+          type: integer
+          example: 3
+        Name:
+          type: string
+          example: "Jean Dupont"
+        ContactInfo:
+          type: string
+          example: "+33123456789"
+        LeaseTermStart:
+          type: string
+          format: date
+          example: "2022-05-01"
+        LeaseTermEnd:
+          type: string
+          format: date
+          example: "2023-04-30"
+        RentalPaymentStatus:
+          type: string
+          example: "Paid"
+      required:
+        - PropertyID
+        - Name
+        - ContactInfo
+        - LeaseTermStart
+        - LeaseTermEnd
+        - RentalPaymentStatus

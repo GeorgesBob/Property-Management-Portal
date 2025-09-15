@@ -1,5 +1,5 @@
 from flask import Blueprint,request, jsonify
-from services.maintenance_service import (get_all_maintenances as service_get_all_maintenances, get_maintenance_by_id as service_get_maintenance_by_id, update_maintenance as service_update_maintenance, create_maintenance as service_create_maintenance)
+from services.maintenance_service import (get_all_maintenances as service_get_all_maintenances, get_maintenance_by_id as service_get_maintenance_by_id, update_maintenance as service_update_maintenance, create_maintenance as service_create_maintenance, delete_maintenance as service_delete_maintenance)
 from models.base import SessionLocal
 from pydantic import ValidationError
 maintenance_bp = Blueprint("maintenance", __name__)
@@ -42,9 +42,20 @@ def update_maintenance(maintenance_id):
         maintenance = service_update_maintenance(db, maintenance_id, data)
         if not maintenance:
             return jsonify({"error": "maintenance not found"}), 404
-        return jsonify(maintenance), 200
+        return jsonify({"status": "OK"}), 200,
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400    
+
+@maintenance_bp.route('/<int:maintenance_id>', methods=["DELETE"])
+def delete_maintenance(maintenance_id):
+    try:
+        maintenance = service_delete_maintenance(db, maintenance_id)
+        if not maintenance:
+            return jsonify({"error": "maintenance not found"}), 404
+        return jsonify({"status": "Delete"}), 200,
+    except ValidationError as e:
+        return jsonify({"error": e.errors()}), 400       
+
 
 
 

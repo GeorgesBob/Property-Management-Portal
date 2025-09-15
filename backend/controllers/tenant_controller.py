@@ -55,7 +55,7 @@ def delete_tenant(tenant_id):
         ten = service_delete_tenant(db, tenant_id)
         if not ten:
             return jsonify({"error": "tenant not found"}), 404
-        return jsonify({"status": "Deleete"}), 200,
+        return jsonify({"status": "Delete"}), 200,
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400    
 
