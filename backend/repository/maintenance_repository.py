@@ -46,7 +46,7 @@ def update_maintenance(db: Session, maintenance_id: int, updates: dict):
 
 def delete_maintenance(db: Session, maintenance_id: int):
     try:
-        maintenance_obj = db.query(Maintenance).filter(Maintenance.MaintenanceID == maintenance_id).first()
+        maintenance_obj = db.query(Maintenance).filter(Maintenance.TaskID == maintenance_id).first()
         if maintenance_obj:
             db.delete(maintenance_obj)
             db.commit()

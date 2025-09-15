@@ -25,5 +25,5 @@ def update_maintenance(db: Session, maintenance_id: int, updates: dict):
     return repo_update_maintenance(db, updates)
 
 def delete_maintenance(db:Session, maintenance_id:int):
-    return repo_delete_maintenance(db,maintenanceId)
+    return repo_delete_maintenance(db,maintenance_id)
 
