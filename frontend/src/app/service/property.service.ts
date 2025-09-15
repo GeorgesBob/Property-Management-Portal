@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { IProperty } from '../interfaces/property.interface';
 import { catchError } from 'rxjs/operators';
-
+import { environment } from '../../environnement/environnement'; 
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +11,7 @@ import { catchError } from 'rxjs/operators';
 export class PropertyService {
   private http = inject(HttpClient);
   readonly properties = signal<IProperty[]>([]);
-  readonly url = 'http://127.0.0.1:8000/property';
+  readonly url = `${environment.apiUrl}property`;
 
   getProperties (): Observable<IProperty[]> {
     return this.http.get<IProperty[]>(this.url).pipe(tap(properties => this.properties.set(properties)));

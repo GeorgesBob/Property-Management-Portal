@@ -1,7 +1,7 @@
 <div class="container py-4">
   <h2 class="mb-4 fw-bold">Property Management</h2>
 
-  <!-- Form -->
+  <!-- Formulaire -->
   <div class="card shadow-sm mb-4">
     <form #propertyForm="ngForm" 
           (ngSubmit)="editMode() ? updateProperty(propertyForm) : addProperty(propertyForm)">
@@ -81,19 +81,18 @@
       </div>
 
       <!-- Buttons -->
-      <button type="submit" class="btn btn-primary btn-action me-2" [disabled]="propertyForm.invalid">
-        <i class="bi" [ngClass]="editMode() ? 'bi-arrow-repeat' : 'bi-plus-circle'"></i>
+      <button type="submit" class="btn btn-primary me-2" [disabled]="propertyForm.invalid">
         {{ editMode() ? 'Update Property' : 'Add Property' }}
       </button>
-      <button type="button" class="btn btn-secondary btn-action" (click)="resetForm()" *ngIf="editMode()">
-        <i class="bi bi-x-circle"></i> Cancel
+      <button type="button" class="btn btn-secondary" (click)="cancelEdit()" *ngIf="editMode()">
+        Cancel
       </button>
     </form>
   </div>
 
   <!-- Property List -->
   <div class="card shadow-sm">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0">Property List</h5>
     </div>    
     <div class="table-responsive">
@@ -110,28 +109,30 @@
           </tr>
         </thead>
         <tbody>
-          @for (property of properties(); track property.PropertyID) {
-            <tr>
-              <td>{{ property.PropertyID | number }}</td>
-              <td>{{ property.Price | number }}</td>
-              <td>{{ property.Address }}</td>
-              <td>{{ property.PropertyType }}</td>
-              <td>{{ property.PurchaseDate }}</td>
-              <td>
-                <span class="badge" [ngClass]="property.Status === 'Occupied' ? 'bg-success' : 'bg-secondary'">
-                  {{ property.Status }}
-                </span>
-              </td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-1" (click)="editProperty(property)">
-                  <i class="bi bi-pencil-square"></i> Edit
-                </button>
-                <button class="btn btn-sm btn-outline-danger" (click)="deleteProperty(property.PropertyID)">
-                  <i class="bi bi-trash"></i> Delete
-                </button>
-              </td>
-            </tr>
-          }
+          <tr *ngFor="let property of properties(); trackBy: trackById">
+            <td>{{ property.PropertyID | number }}</td>
+            <td>{{ property.Price | number }}</td>
+            <td>{{ property.Address }}</td>
+            <td>{{ property.PropertyType }}</td>
+            <td>{{ property.PurchaseDate | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': property.Status === 'Occupied',
+                      'bg-secondary': property.Status === 'Vacant'
+                    }">
+                {{ property.Status }}
+              </span>
+            </td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-primary me-1" (click)="editProperty(property)">
+                <i class="bi bi-pencil-square"></i> Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(property.PropertyID)">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

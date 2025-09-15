@@ -4,7 +4,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { PropertyService } from '../../service/property.service';
 import { IProperty } from '../../interfaces/property.interface';
 
-
 @Component({
   selector: 'app-property',
   standalone: true,
@@ -17,7 +16,7 @@ export class PropertyComponent {
 
   properties = this.propertyService.properties;
 
-  today = new Date().toISOString().split('T')[0]; // pour min="today"
+  today = new Date().toISOString().split('T')[0];
 
   // State
   newProperty = signal<IProperty>({
@@ -32,8 +31,6 @@ export class PropertyComponent {
   editMode = signal(false);
   selectedId = signal<number | null>(null);
 
-  p: number = 1;
-
   ngOnInit() {
     this.propertyService.getProperties().subscribe();
   }
@@ -44,23 +41,14 @@ export class PropertyComponent {
       return;
     }
 
-    const property = this.newProperty();
-    
-    const properties = {
-      Address: property.Address,
-      Price: property.Price,
-      PurchaseDate: property.PurchaseDate,
-      Status: property.Status,
-      PropertyType: property.PropertyType
-    }
-
-    this.propertyService.createProperties(properties).subscribe({
+    const property = { ...this.newProperty() };
+    this.propertyService.createProperties(property).subscribe({
       next: created => {
         this.properties.update(list => [...list, created]);
         this.resetForm();
         form.resetForm();
       },
-      error: err => console.error('Erreur création :', err)
+      error: err => console.error('❌ Erreur création :', err)
     });
   }
 
@@ -68,6 +56,10 @@ export class PropertyComponent {
     this.editMode.set(true);
     this.selectedId.set(property.PropertyID);
     this.newProperty.set({ ...property });
+  }
+
+  cancelEdit() {
+    this.resetForm();
   }
 
   updateProperty(form: NgForm) {
@@ -79,9 +71,9 @@ export class PropertyComponent {
     const id = this.selectedId();
     if (!id) return;
 
-    this.propertyService.patchProperties(id, this.newProperty()).subscribe({
+    const property = { ...this.newProperty() };
+    this.propertyService.patchProperties(id, property).subscribe({
       next: updated => {
-        updated = this.newProperty()
         this.properties.update(list =>
           list.map(p => (p.PropertyID === id ? updated : p))
         );
@@ -90,6 +82,12 @@ export class PropertyComponent {
       },
       error: err => console.error('❌ Erreur update :', err)
     });
+  }
+
+  confirmDelete(id: number) {
+    if (confirm('⚠️ Are you sure you want to delete this property?')) {
+      this.deleteProperty(id);
+    }
   }
 
   deleteProperty(id: number) {
@@ -112,5 +110,9 @@ export class PropertyComponent {
     });
     this.editMode.set(false);
     this.selectedId.set(null);
+  }
+
+  trackById(index: number, item: IProperty) {
+    return item.PropertyID;
   }
 }

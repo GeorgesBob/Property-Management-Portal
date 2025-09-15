@@ -1,16 +1,14 @@
 <div class="container py-4">
   <h2 class="mb-4 fw-bold">Maintenance Management</h2>
 
-  <!-- Form -->
+  <!-- Formulaire -->
   <div class="card shadow-sm mb-4">
     <form #MaintenanceForm="ngForm" 
           (ngSubmit)="editMode() ? updateMaintenance(MaintenanceForm) : addMaintenance(MaintenanceForm)">
-
+      
       <!-- Property ID -->
       <div class="mb-3">
-        <label class="form-label fw-semibold">
-          <i class="bi bi-cash-coin text-primary me-1"></i> Property ID
-        </label>
+        <label class="form-label fw-semibold">Property ID</label>
         <input type="number" class="form-control"
                [(ngModel)]="newMaintenance().PropertyID"
                name="PropertyID" #PropertyID="ngModel" required>
@@ -21,9 +19,7 @@
 
       <!-- Description -->
       <div class="mb-3">
-        <label class="form-label fw-semibold">
-          <i class="bi bi-geo-alt text-danger me-1"></i> Description
-        </label>
+        <label class="form-label fw-semibold">Description</label>
         <input type="text" class="form-control"
                [(ngModel)]="newMaintenance().Description"
                name="Description" #Description="ngModel" required>
@@ -34,52 +30,46 @@
 
       <!-- Scheduled Date -->
       <div class="mb-3">
-        <label class="form-label fw-semibold">
-          <i class="bi bi-calendar-date text-warning me-1"></i> Scheduled Date
-        </label>
+        <label class="form-label fw-semibold">Scheduled Date</label>
         <input type="date" class="form-control"
                [min]="today"
                [(ngModel)]="newMaintenance().ScheduledDate"
-               name="ScheduledDate" #purchaseDate="ngModel" required>
-        <div *ngIf="purchaseDate.invalid && purchaseDate.touched" class="text-danger small">
+               name="ScheduledDate" #ScheduledDate="ngModel" required>
+        <div *ngIf="ScheduledDate.invalid && ScheduledDate.touched" class="text-danger small">
           Date is required
         </div>
       </div>
 
       <!-- Status -->
       <div class="mb-3">
-        <label class="form-label fw-semibold">
-          <i class="bi bi-check-circle text-info me-1"></i> Status
-        </label>
+        <label class="form-label fw-semibold">Status</label>
         <select class="form-select"
                 [(ngModel)]="newMaintenance().Status"
-                name="status" #status="ngModel" required>
+                name="Status" #Status="ngModel" required>
           <option value="" disabled selected>-- Select Status --</option>
           <option value="Pending">Pending</option>
           <option value="In Progress">In Progress</option>
           <option value="Completed">Completed</option>
         </select>
-        <div *ngIf="status.invalid && status.touched" class="text-danger small">
+        <div *ngIf="Status.invalid && Status.touched" class="text-danger small">
           Status is required
         </div>
       </div>
 
       <!-- Buttons -->
-      <button type="submit" class="btn btn-primary btn-action me-2" [disabled]="MaintenanceForm.invalid">
-        <i class="bi" [ngClass]="editMode() ? 'bi-arrow-repeat' : 'bi-plus-circle'"></i>
+      <button type="submit" class="btn btn-primary me-2" [disabled]="MaintenanceForm.invalid">
         {{ editMode() ? 'Update Maintenance' : 'Add Maintenance' }}
       </button>
-      <button type="button" class="btn btn-secondary btn-action" (click)="resetForm()" *ngIf="editMode()">
-        <i class="bi bi-x-circle"></i> Cancel
-      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelEdit()" *ngIf="editMode()">Cancel</button>
     </form>
   </div>
 
-  <!-- Maintenance List -->
+  <!-- Liste des maintenances -->
   <div class="card shadow-sm">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0">Maintenance List</h5>
-    </div>    
+      <button class="btn btn-sm btn-outline-secondary" (click)="sortByDate()">Sort by Date</button>
+    </div>
     <div class="table-responsive">
       <table class="table table-striped table-hover mb-0 align-middle">
         <thead>
@@ -91,27 +81,28 @@
           </tr>
         </thead>
         <tbody>
-          @for (Maintenance of maintenances(); track Maintenance.TaskID) {
-            <tr>
-              <td>{{ Maintenance.ScheduledDate }}</td>
-              <td>
-                <span class="badge" [ngClass]="Maintenance.Status === 'Completed' ? 'bg-success': 'bg-secondary' ">
-                  {{ Maintenance.Status }}
-                </span>
-              </td>
-              <td>
-                {{ Maintenance.Description }}
-              </td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-2" (click)="editMaintenance(Maintenance)">
-                  <i class="bi bi-pencil-square me-1"></i> Edit
-                </button>
-                <button class="btn btn-sm btn-outline-danger" (click)="deleteMaintenance(Maintenance.TaskID)">
-                  <i class="bi bi-trash me-1"></i> Delete
-                </button>
-              </td>
-            </tr>
-          }
+          <tr *ngFor="let maintenance of maintenances(); trackBy: trackById">
+            <td>{{ maintenance.ScheduledDate | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-warning text-dark': maintenance.Status === 'Pending',
+                      'bg-info text-white': maintenance.Status === 'In Progress',
+                      'bg-success text-white': maintenance.Status === 'Completed'
+                    }">
+                {{ maintenance.Status }}
+              </span>
+            </td>
+            <td>{{ maintenance.Description }}</td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="editMaintenance(maintenance)">
+                <i class="bi bi-pencil-square"></i> Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(maintenance.TaskID)">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

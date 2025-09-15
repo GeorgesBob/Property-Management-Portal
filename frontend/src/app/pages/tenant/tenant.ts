@@ -2,8 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TenantService } from '../../service/tenant.js';
-
-
 @Component({
   selector: 'app-Tenant',
   standalone: true,
@@ -57,7 +55,7 @@ export class TenantComponent {
     RentalPaymentStatus: tenant.RentalPaymentStatus,
     PropertyID: tenant.PropertyID
     }
-    
+
     this.tenantService.createTenants(tent).subscribe({
       next: created => {
         created = tenant
@@ -98,6 +96,13 @@ export class TenantComponent {
       },
       error: err => console.error('Erreur update :', err)
     });
+  }
+
+
+  confirmDelete(id: number) {
+    if (confirm('⚠️ Are you sure you want to delete this tenant?')) {
+      this.deleteTenant(id);
+    }
   }
 
   deleteTenant(id: number) {

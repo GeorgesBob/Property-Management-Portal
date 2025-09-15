@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { IMaintenance } from '../interfaces/maintenance.interface';
 import { Observable, catchError, tap } from 'rxjs';
+import { environment } from '../../environnement/environnement';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Observable, catchError, tap } from 'rxjs';
 export class MaintenanceService {
   private http = inject(HttpClient);
   readonly maintenances = signal<IMaintenance[]>([]);
-  readonly url = 'http://127.0.0.1:8000/maintenance';
+  readonly url = `${environment.apiUrl}maintenance`;
 
   getMaintenances (): Observable<IMaintenance[]> {
     return this.http.get<IMaintenance[]>(this.url).pipe(tap(maintenances => this.maintenances.set(maintenances)));

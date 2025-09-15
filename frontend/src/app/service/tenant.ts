@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, tap } from 'rxjs';
-
+import { environment } from '../../environnement/environnement';
 @Injectable({
   providedIn: 'root'
 })
 export class TenantService {
   private http = inject(HttpClient);
   readonly tenants = signal<ITenant[]>([]);
-  readonly url = 'http://127.0.0.1:8000/tenant';
+  readonly url = `${environment.apiUrl}tenant`;
 
   getTenants (): Observable<ITenant[]> {
     return this.http.get<ITenant[]>(this.url).pipe(tap(tenants => this.tenants.set(tenants)));
