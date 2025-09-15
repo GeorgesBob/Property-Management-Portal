@@ -12,6 +12,7 @@ from pydantic import ValidationError
 property_bp = Blueprint("property", __name__)
 db = SessionLocal()
 
+# get all properties
 @property_bp.route('/')
 def get_all_properties():
     properties = service_get_all_properties(db)
@@ -19,6 +20,7 @@ def get_all_properties():
         return jsonify({"error": "proeprties not found"}), 404
     return jsonify(properties), 200
 
+# get one property
 @property_bp.route('/<int:property_id>')
 def get_property(property_id):
     prop = service_get_property_by_id(db, property_id)
@@ -26,6 +28,8 @@ def get_property(property_id):
         return jsonify({"error": "property not found"}), 404
     return jsonify(prop), 200
 
+
+# create properties
 @property_bp.route("/", methods=["POST"])
 def create_property():
     try:
@@ -38,6 +42,7 @@ def create_property():
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400   
 
+# Edit property
 @property_bp.route('/<int:property_id>', methods=["PATCH"])
 def update_property(property_id):
     try:
@@ -49,6 +54,7 @@ def update_property(property_id):
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400 
 
+# Delete a proprty
 @property_bp.route('/<int:property_id>', methods=["DELETE"])
 def delete_property(property_id):
     try:

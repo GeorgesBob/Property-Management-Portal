@@ -31,7 +31,7 @@ def update_tenant(db: Session, tenant_id: int, updates: dict):
     try:
         tenant_obj = db.get(Tenant, tenant_id)
         if not tenant_obj:
-            return None  # ou raise ValueError(f"tenant {tenant_id} not found")
+            raise ValueError(f"tenant {tenant_id} not found")
 
         for key, value in updates.items():
             if hasattr(tenant_obj, key):

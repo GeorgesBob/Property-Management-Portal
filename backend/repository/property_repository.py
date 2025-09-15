@@ -31,7 +31,7 @@ def update_property(db: Session, property_id: int, updates: dict):
     try:
         property_obj = db.get(Property, property_id)
         if not property_obj:
-            return None  # ou raise ValueError(f"Property {property_id} not found")
+            raise ValueError(f"Property {property_id} not found")
 
         for key, value in updates.items():
             if hasattr(property_obj, key):

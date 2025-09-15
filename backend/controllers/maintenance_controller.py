@@ -5,6 +5,7 @@ from pydantic import ValidationError
 maintenance_bp = Blueprint("maintenance", __name__)
 db = SessionLocal()
 
+# get all maintenances
 @maintenance_bp.route('/')
 def get_all_maintenances():
     maintenances = service_get_all_maintenances(db)
@@ -12,6 +13,7 @@ def get_all_maintenances():
         return jsonify({"error": "maintenances not found"}), 404
     return jsonify(maintenances), 200
 
+# get one maintenance
 @maintenance_bp.route('/<int:maintenance_id>')
 def get_maintenance(maintenance_id):
     maintenance = service_get_maintenance_by_id(db, maintenance_id)
@@ -19,6 +21,7 @@ def get_maintenance(maintenance_id):
         return jsonify({"error": "maintenance not found"}), 404
     return jsonify(maintenance), 200
 
+# create a maintenance
 @maintenance_bp.route("/", methods=["POST"])
 def create_maintenance():
     try:
@@ -27,14 +30,12 @@ def create_maintenance():
 
         if not maintenance:
             return jsonify({"error": "Maintenance not created"}), 400
-
-        # ✅ si tout va bien
         return jsonify({"status": "OK"}), 201,
 
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400
    
-
+# Edit a maintenance
 @maintenance_bp.route('/<int:maintenance_id>', methods=["PATCH"])
 def update_maintenance(maintenance_id):
     try:
@@ -46,6 +47,7 @@ def update_maintenance(maintenance_id):
     except ValidationError as e:
         return jsonify({"error": e.errors()}), 400    
 
+# Delete a maintenance
 @maintenance_bp.route('/<int:maintenance_id>', methods=["DELETE"])
 def delete_maintenance(maintenance_id):
     try:

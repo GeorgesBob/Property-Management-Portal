@@ -5,7 +5,7 @@ from controllers.maintenance_controller import maintenance_bp
 from controllers.tenant_controller import tenant_bp
 from utils.helper_functions import import_csv_file
 from flask_cors import CORS
-from models.property import Property  # Exemple : modèle Property
+from models.property import Property
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
@@ -18,10 +18,8 @@ app.register_blueprint(tenant_bp, url_prefix="/tenant")
 
 try:
     Base.metadata.create_all(bind=engine)
-
-    # ✅ Vérifier si la base est vide
     session = SessionLocal()
-    data_exists = session.query(Property).first()  # tu peux mettre un autre modèle de référence
+    data_exists = session.query(Property).first()
     session.close()
 
     if not data_exists:
