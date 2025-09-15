@@ -1,25 +1,42 @@
-$navy-dark: #0d1b2a;
-$navy-medium: #1b263b;
-$navy-light: #415a77;
-$white: #ffffff;
-
 .sidebar {
   width: 250px;
-  height: 100vh;
-  background-color: $navy-dark;
-  color: $white;
+  min-height: 100vh;
+  background-color: #1e1e2f;
+  color: #fff;
+  transition: all 0.3s ease;
 
-  .nav-link {
-    border-radius: 8px;
-    transition: background 0.3s ease;
+  .brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    padding: 0.5rem 0;
+    color: #fff;
+    transition: color 0.2s ease;
 
     &:hover {
-      background-color: $navy-medium;
+      color: #0d6efd;
+    }
+  }
+
+  .nav-link {
+    color: #cfd2da;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+
+    i {
+      font-size: 1.1rem;
+    }
+
+    &:hover {
+      background-color: rgba(13, 110, 253, 0.15);
+      color: #fff;
     }
 
     &.active {
-      background-color: $navy-light;
-      font-weight: bold;
+      background-color: #0d6efd;
+      color: #fff;
+      font-weight: 600;
     }
   }
 }
