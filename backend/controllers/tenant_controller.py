@@ -18,7 +18,7 @@ db = SessionLocal()
 def get_all_tenants():
     tenants = service_get_all_tenants(db)
     if not tenants:
-        r return jsonify({"error": "tenants not found"}), 404
+        return jsonify({"error": "tenants not found"}), 404
     return jsonify(tenants), 200
 
 # get one tenant 
