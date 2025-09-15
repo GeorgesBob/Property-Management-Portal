@@ -8,7 +8,7 @@ support functionalities like scheduling maintenance, and managing tenant informa
 
 ## Authors
 
-- [@octokatherine](https://www.github.com/octokatherine)
+- [@GeorgesBob]([(https://github.com/GeorgesBob)])
 
 
 ## Installation
