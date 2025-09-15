@@ -57,6 +57,7 @@ export class TenantComponent {
     RentalPaymentStatus: tenant.RentalPaymentStatus,
     PropertyID: tenant.PropertyID
     }
+    
     this.tenantService.createTenants(tent).subscribe({
       next: created => {
         created = tenant

@@ -13,8 +13,6 @@ import { PropertyService } from '../../service/property.service';
 })
 export class Maintenance {
   private maintenanceService = inject(MaintenanceService);
-  private propertyService = inject(PropertyService);
-
   maintenances = this.maintenanceService.maintenances;
 
   today = new Date().toISOString().split('T')[0]; // pour min="today"
@@ -33,31 +31,28 @@ export class Maintenance {
   propertyId = signal<number | null>(null);
 
   ngOnInit() {
-    this.propertyService.getProperties().subscribe();
     this.maintenanceService.getMaintenances().subscribe();
   }
 
-  getPropertyId() {
-    console.log(this.propertyService.getProperties().subscribe(value => value.filter(value => value.PropertyID)))
-  }
-
   addMaintenance(form: NgForm) {
-    this.getPropertyId()
     if (form.invalid) {
       alert('⚠️ Veuillez remplir tous les champs');
       return;
     }
 
     const maintenance = this.newMaintenance();
-    const maint = {
+    const maintenances = {
       Description: maintenance.Description,
       PropertyID: maintenance.PropertyID,
       ScheduledDate: maintenance.ScheduledDate,
       Status: maintenance.Status
     }
 
-    this.maintenanceService.createMaintenances(maint).subscribe({
+
+
+    this.maintenanceService.createMaintenances(maintenances).subscribe({
       next: created => {
+        created = maintenance
         this.maintenances.update(list => [...list, created]);
         this.resetForm();
         form.resetForm();

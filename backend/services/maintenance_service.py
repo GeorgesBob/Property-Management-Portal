@@ -22,7 +22,7 @@ def create_maintenance(db: Session, maintenance_data: dict):
 def update_maintenance(db: Session, maintenance_id: int, updates: dict):
     if not validate_maintenance_data(updates):
         raise ValueError("Invalid updates data")
-    return repo_update_maintenance(db, updates)
+    return repo_update_maintenance(db,maintenance_id, updates)
 
 def delete_maintenance(db:Session, maintenance_id:int):
     return repo_delete_maintenance(db,maintenance_id)
