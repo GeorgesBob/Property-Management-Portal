@@ -37,6 +37,11 @@ To deploy this backend project
   python3 -m app
 ```
 
+To deploy this backend test project
+```bash
+  pytest -v
+```
+
 ## Tech Stack
 
 **Client:** Angular
